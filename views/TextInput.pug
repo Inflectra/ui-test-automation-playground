@@ -1,0 +1,66 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Entering text with physical keyboard can be different from sending DOM events to an element. This page is specifically desined to illustrate this problem. There are cases when attempts to set a text via DOM events lead to nowhere and the only way to proceed is to emulate real keyboard input at OS level.
+                h4 Scenario
+                ul
+                    li Record setting text into the input field and pressing the button.
+                    li Then execute your test to make sure that the button name is changing.
+                h4 Playground
+                <form>
+                    <div class="form-group">
+                        label(for="newButtonName") Set New Button Name
+                        input(
+                            type="text"
+                            class="form-control"
+                            placeholder="MyButton"
+                            id="newButtonName"
+                        )
+                    br
+                    button(
+                        type="button" 
+                        class="btn btn-primary"
+                        id="updatingButton"
+                    ) Button That Should Change it's Name Based on Input Value
+
+        script.
+            function ClickEventHandler(event)
+            { 
+                if (event.target.id == "updatingButton")
+                {
+                    if (document.NewButtonNameC  &&  document.NewButtonNameC == document.NewButtonNameI)
+                    {
+                        event.target.textContent = document.NewButtonNameC;
+                    }
+                }
+            }
+
+            function InputEventHandler(event)
+            {
+                if (event.target.id == "newButtonName")
+                {
+                    document.NewButtonNameI = event.target.value;
+                }
+            }
+
+            function ChangeEventHandler(event)
+            {
+                if (event.target.id == "newButtonName")
+                {
+                    document.NewButtonNameC = event.target.value;
+                }
+            }       
+
+            document.body.addEventListener('click', ClickEventHandler, true);
+            document.body.addEventListener('input', InputEventHandler, true);
+            document.body.addEventListener('change', ChangeEventHandler, true);
+            document.NewButtonName = null;
+        
+        include footer.html
+    

@@ -1,0 +1,45 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                h4 Learning
+                ul
+                    li 
+                        a(href="https://www.w3schools.com") w3schools.com
+                    li  
+                        a(href="https://developer.mozilla.org/en-US/") MDN
+                    li
+                        a(href="https://github.com/zeeshanu/learn-regex") Learn regex the easy way
+                    li
+                        a(href="https://devhints.io/") devhints.io
+                h4 Standards
+                ul
+                    li
+                        a(href="https://www.w3.org/") W3C
+                h4 Articles
+                ul
+                    li
+                        a(href="https://martinfowler.com/bliki/TestPyramid.html") Test Pyramid
+                    li
+                        a(href="https://testing.googleblog.com/2017/04/where-do-our-flaky-tests-come-from.html") Where do our flaky tests come from? 
+                    
+                h4 Community
+                ul
+                    li
+                        a(href="https://ministryoftesting.com/") Ministry of Testing
+                    li 
+                        a(href="https://www.utest.com") uTest
+                    li  
+                        a(href="https://www.softwaretestinghelp.com") Software Testing Help
+                    li
+                        a(href="https://dzone.com/") DZone
+                    li
+                        a(href="https://stackoverflow.com/") StackOverflow
+
+        include footer.html
+    

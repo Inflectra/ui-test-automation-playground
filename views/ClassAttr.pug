@@ -1,0 +1,45 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Class attribute of an element may contain more than one class reference. E.g. 
+                <pre><code class="language-html">&lt;button class="btn btn-primary btn-test"&gt;</code></pre> 
+                p XPath selector relying on a class must be well formed. For example, the following will not work: 
+                <pre><code class="language-bash">//button[@class='btn-primary']</code></pre>
+                p Correct variant is
+                <pre><code class="language-bash">//button[contains(concat(' ', normalize-space(@class), ' '), ' btn-primary ')]</code></pre>
+                h4 Scenario
+                ul
+                    li Record primary (blue) button click and press ok in alert popup.
+                    li Then execute your test to make sure that it can identify the button using <code>btn-primary</code> class.
+                h4 Playground
+                button(
+                    type="button" 
+                    class="btn class1 " + button1Class + " btn-test"
+                ) Button
+                button(
+                    type="button" 
+                    class="btn class2 " + button2Class + " btn-test"
+                ) Button
+                button(
+                    type="button" 
+                    class="btn class3 " + button3Class + " btn-test"
+                ) Button      
+
+        script.
+            function ClickEventHandler(event)
+            { 
+                if (("" + event.target.className).indexOf("btn-primary") != -1)
+                {
+                    alert("Primary button pressed");
+                }
+            } 
+            document.body.addEventListener('click', ClickEventHandler, true);         
+
+        include footer.html
+    

@@ -1,0 +1,82 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+        
+        section(id="description")
+            div(class="container")
+                div(class="row")
+                    div(class="col-sm")
+                        h1(id="title") UI Test Automation<br>Playground
+                        blockquote(
+                            class="blockquote" 
+                            id="citation"
+                        )
+                            p(class="mb-0") Quality is not an act, it is a habit.
+                            footer(class="blockquote-footer") Aristotle
+                        div(
+                            class="alert alert-warning" 
+                            role="alert"
+                        )
+                            span The purpose of this website is to provide a platform for sharpening UI test automation skills. Use it to practice with your test automation tool. Use it to learn test automation techniques.
+                        p Different automation pitfalls appearing in modern web applications are described and emulated below.
+                    div(class="col-sm")
+                        img(
+                            src="/static/cube.png" 
+                            class="img-fluid" 
+                            alt="Responsive image"
+                        )
+                        p(class="text-center")
+                            <small>
+                                <a href="http://pngimg.com/download/46552">Rubik's Cube </a> is licensed under 
+                                <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC 4.0 BY-NC</a>
+                            </small>
+
+
+        section(id="overview")
+            div(class="container")
+                div(class="row")
+                    div(class="col-sm")
+                        h3
+                            a(href="/dynamicid") Dynamic ID
+                        p Make sure you are not recording dynamic IDs of elements
+                    div(class="col-sm")
+                        h3 
+                            a(href="/classattr") Class Attribute
+                        p Check that class attribute based XPath is well formed
+                    div(class="col-sm")
+                        h3 
+                            a(href="/hiddenlayers") Hidden Layers
+                        p Verify that your test does not interact with elements invisible because of z-order
+                    div(class="col-sm")
+                        h3
+                            a(
+                                href="/loaddelay" 
+                                onclick="$('#spinner').show(); return true;"
+                            ) Load Delay
+                            i(
+                                id="spinner" 
+                                class="fa fa-spinner fa-spin" 
+                                style="display:none"
+                            )
+                        p Ensure that a test is capable of waiting for a page to load
+                div(class="row")
+                    div(class="col-sm")
+                        h3 
+                            a(href="/ajax") AJAX Data
+                        p Some elements may appear on a page after loading data with AJAX request
+                    div(class="col-sm")
+                        h3 
+                            a(href="/clientdelay") Client Side Delay
+                        p Some elements may appear after client-side time consuming JavaScript calculations
+                    div(class="col-sm")
+                        h3
+                            a(href="/click") Click
+                        p  Event based click on an element may not always work
+                    div(class="col-sm")
+                        h3 
+                            a(href="/textinput") Text Input
+                        p Entering text into an edit field may not have effect
+        
+        include footer.html

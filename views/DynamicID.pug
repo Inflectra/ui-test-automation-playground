@@ -1,0 +1,23 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Modern applications often generate dynaics IDs for elements. In this case ID is not a reliable attribute for using in element selector. By default many UI automation tools record IDs and this results in tests broken from the very beginning. An automation tool needs a way to instruct it to skip dynamic IDs when XPath is generated for an element.
+                h4 Scenario
+                ul
+                    li Record button click.
+                    li Then execute your test to make sure that ID is not used for button identification.
+                h4 Playground
+                button(
+                    type="button" 
+                    class="btn btn-primary"
+                    id=buttonId
+                ) Button with Dynamic ID
+
+        include footer.html
+    

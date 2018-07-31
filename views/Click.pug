@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Physical mouse click and DOM event emulated click are differently handled by browsers. There are still cases, with sometimes hardly identifiable reasons, when an event based click does not work. The solution for this problem is emulating physical mouse click. This page is specifically desined to ignore event based click.
+                h4 Scenario
+                ul
+                    li Record button click. The button becomes green after clicking.
+                    li Then execute your test to make sure that it is able to click the button.
+                h4 Playground
+                button(
+                    id="badButton"
+                    type="button" 
+                    class="btn btn-primary"
+                ) Button That Ignores DOM Click Event
+  
+        script.
+            function ClickEventHandler(event)
+            { 
+                if (event.target.id == "badButton")
+                {
+                    if (event.clientX > 0)
+                    {
+                        event.target.className = 'btn btn-success';
+                    }
+                }
+            } 
+            document.body.addEventListener('click', ClickEventHandler, true);
+
+        include footer.html
+    

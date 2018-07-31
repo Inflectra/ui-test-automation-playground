@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Server response may often come with an unpredictable delay. So a test must be able to patiently wait for page loaded event from a browser.
+                h4 Scenario
+                ul
+                    li Navigate to Home page and record Load Delays link click and button click on this page.
+                    li Then play the test. It should wait until page is loaded.
+                h4 Playground
+                button(
+                    type="button" 
+                    class="btn btn-primary"
+                ) Button Appearing After Delay
+
+        include footer.html

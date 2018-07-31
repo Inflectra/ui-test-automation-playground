@@ -1,0 +1,16 @@
+{
+  "name": "ui-test-automation-playground",
+  "version": "1.0.0",
+  "description": "UI Test Automation Playground",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Inflectra Corporation",
+  "license": "Apache License 2.0",
+  "dependencies": {
+    "express": "^4.16.3",
+    "pug": "^2.0.3",
+    "shuffle-array": "^1.0.1"
+  }
+}

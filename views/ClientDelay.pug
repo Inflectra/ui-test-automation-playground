@@ -1,0 +1,45 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p An element may appaear on a page after heavy JavaScript processing on a client side. A test should be able to wait for an element to show up.
+                h4 Scenario
+                ul
+                    li Record the following steps. Press the button below and wait for data to appear (15 seconds), click on text of the loaded label.
+                    li Then execute your test to make sure it waits for label text to appear.
+                h4 Playground
+                button(
+                    type="button" 
+                    class="btn btn-primary"
+                    id="ajaxButton"
+                    onclick="CreateLabel()"
+                ) Button Triggering Client Side Logic
+                i(
+                    id="spinner" 
+                    class="fa fa-spinner fa-spin" 
+                    style="display:none"
+                )
+                <div id="content">
+                </div>
+
+        script.
+            function CreateLabel()
+            {
+                $('#spinner').show();
+                setTimeout(function()
+                {
+                    var label = document.createElement("p");
+                    label.className = "bg-success";
+                    label.innerHTML = "Data calculated on the client side.";
+                    document.getElementById("content").appendChild(label);
+                    $('#spinner').hide();
+                }, 15000);
+            }
+
+        include footer.html
+    

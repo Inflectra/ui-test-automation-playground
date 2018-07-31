@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Some applications use DOM caching techniques. For example, if a user follows a multi step process and each step requires filling data into a form then forms may be cached at the client side along the way. It allows to quickly navigate back and forward through the steps without requesting data from a server. When form is cached it just pushed on-top of z-order stack. It means that an element may be still present in the DOM tree but overlapped with another layer of elements. In this case it is important that a test does not interact with inactive elements becasue they are invisible to a user.
+                h4 Scenario
+                ul
+                    li Record button click and then duplicate the button click step in your test.
+                    li Execute the test to make sure that green button can not be hit twice.
+                h4 Playground
+                div(
+                    id="spa"
+                )
+                    div(
+                        class="spa-view" 
+                        style="z-index: 1;"
+                    )
+                        button(
+                            type="button" 
+                            class="btn btn-success"
+                            id="greenButton"
+                        ) Button
+                div
+                    br
+
+        script.
+            function ClickEventHandler(event)
+            { 
+                if (event.target.id == "greenButton")
+                {
+                    console.log("Green button pressed");
+                    if ($("#blueButton").length)
+                    {
+                        $("#blueButton").parent().append("<p class='bg-warning'>User can not click green button in the current application state!</p>");
+                    }
+                    $("#spa").append('<div class="spa-view" style="z-index: 2;"><button type="button" class="btn btn-primary" id="blueButton">Button</button></div>');                    
+                }
+                else if  (event.target.id == "blueButton")
+                {
+                    console.log("Blue button pressed");
+                }
+            } 
+            document.body.addEventListener('click', ClickEventHandler, true);                            
+
+        include footer.html
+    
