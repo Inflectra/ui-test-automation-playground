@@ -14,8 +14,15 @@ function guid() {
 
 // Routing and launch
 app.set('view engine', 'pug')
-app.get('/', (req, res) => res.send('UI Test Automation Playground'))
+
 app.use('/static', express.static('static'))
+
+app.get('/', function (req, res) {
+  res.render('Home', {
+    title: 'UI Test Automation Playground',
+    homeActive: true
+  })
+})
 
 app.get('/home', function (req, res) {
   res.render('Home', {
