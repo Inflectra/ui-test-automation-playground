@@ -103,4 +103,5 @@ app.get('/hiddenlayers', function (req, res) {
   })
 })
 
-app.listen(443, () => console.log('UI Test Automation Playground is listening on port 443!'))
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('UI Test Automation Playground is listening on port ' + port))
