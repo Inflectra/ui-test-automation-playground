@@ -2,7 +2,7 @@
   "name": "ui-test-automation-playground",
   "version": "1.0.0",
   "description": "UI Test Automation Playground",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
