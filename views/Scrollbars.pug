@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p An application may use native or custom scrollbars and some elements may be out of view. A test scenario may require to ensure that an element is visible on screen and this may require scrolling.
+                h4 Scenario
+                ul
+                    li Find a button in the scroll view and record button click.
+                    li Update your test to automatically scroll the button into a visible area.
+                    li Then execute your test to make sure it works.
+                h4 Playground
+                div(style="height:150px;overflow-y: scroll;width:300px;overflow-x:scroll")
+                    div(style="height:300px;width:600px")
+                        div(style="height:150px;")
+                        table
+                            tr
+                                td(style="width:300px;")
+                                td
+                                    button(
+                                        type="button" 
+                                        class="btn btn-primary"
+                                        id="hidingButton"
+                                    ) Hiding Button
+        
+        include footer.html
+    

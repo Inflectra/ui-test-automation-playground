@@ -110,5 +110,11 @@ app.get('/hiddenlayers', function (req, res) {
   })
 })
 
+app.get('/scrollbars', function (req, res) {
+  res.render('Scrollbars', {
+    title: 'Scrollbars'
+  })
+})
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('UI Test Automation Playground is listening on port ' + port))
