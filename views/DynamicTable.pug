@@ -1,0 +1,38 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Below you see a table where columns and rows change their position upon page reload. Values in cells are random. The table is based on DIVs with ARIA attributes. See <a href="https://www.w3.org/TR/wai-aria-practices/examples/table/table.html">WAI-ARIA table design pattern</a> for details.
+                h4 Scenario
+                ul
+                    li For Chrome process get value of CPU load.
+                    li Compare it with value in the yellow label.
+                h4 Playground
+                div(
+                    role="table" 
+                    aria-label=table.name
+                    aria-describedby="table_desc"
+                )
+                    div(id="table_desc")
+                        =table.desc
+                    div(role="rowgroup")
+                        div(role="row")
+                            - for (var c = 0; c < table.columns.length; c++)
+                                 span(role="columnheader")
+                                    =table.columns[c]
+                    div(role="rowgroup")
+                        - for (var r = 0; r < table.rows.length; r++)  
+                            div(role="row")
+                                - for (var v = 0; v < table.rows[r].length; v++)
+                                    span(role="cell")
+                                        =table.rows[r][v]
+
+                br
+                p(class='bg-warning')="Chrome CPU: " + table.chromeCPU
+        include footer.html
+    

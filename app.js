@@ -116,5 +116,61 @@ app.get('/scrollbars', function (req, res) {
   })
 })
 
+app.get('/dynamictable', function (req, res) {
+
+  function genmetric(m)
+  {
+    switch(m)
+    {
+      case "CPU":
+        return Math.floor(Math.random()*100)/10.0 + "%";
+      case "Memory":
+        return Math.floor(Math.random()*1000)/10.0 + " MB";
+      case "Disk":
+        return Math.floor(Math.random()*10)/10.0 + " MB/s";
+      case "Network":
+        return Math.floor(Math.random()*100)/10.0 + " Mbps";
+      default:
+    }
+    return "";
+  }
+
+  var tasks = ["System", "Firefox", "Chrome", "Internet Explorer"];
+  shuffle(tasks);
+
+  var metrics = ["CPU", "Memory", "Disk", "Network"];
+  shuffle(metrics);
+
+  var rows = [];
+  for(var t in tasks)
+  {
+    var row = [tasks[t]];
+    for(var m in metrics)
+    {
+      row.push(genmetric(metrics[m]));
+    }
+    rows.push(row);
+  }
+
+  var columns = ["Name"];
+  columns.push.apply(columns, metrics);
+
+  var cpuColumnIndex = columns.indexOf("CPU");
+  var chromeRowIndex = tasks.indexOf("Chrome");
+  var chromeCPU = rows[chromeRowIndex][cpuColumnIndex];
+
+  var table = {
+    name: "Tasks",
+    desc: "Task Manager", 
+    columns: columns,
+    rows: rows,
+    chromeCPU: chromeCPU
+  };
+
+  res.render('DynamicTable', {
+    title: 'Dynamic Table', table: table
+  })
+})
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('UI Test Automation Playground is listening on port ' + port))
