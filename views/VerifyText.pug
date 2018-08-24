@@ -7,11 +7,34 @@ html(lang="en")
         section
             div(class="container")
                 h3=title
-                p TBD
+                p In general inner text of a DOM element is different from displayed on screen. Browsers normalize text upon rendering, but DOM nodes contain text as it is in HTML markup. For example a browser may show the text as
+                div
+                    p
+                        span(class="badge-secondary") Hello UserName!
+                p and the text of the DOM element can be
+                div.
+                    <p class="bg-warning">
+                        <span class="badge-secondary">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;Hello UserName!<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </span>
+                    </p>
+                p Take this fact into account when searching for an element using it's text value. 
+                div(class="container")
+                    div(class="row")
+                        div(class="col-sm") Does not work
+                        div(class="col-sm") Works
+                    div(class="row")
+                        div(class="col-sm")
+                            code //span[.='Welcome UserName!']
+                        div(class="col-sm")
+                            code //span[normalize-space(.)='Welcome UserName!']
+                br
                 h4 Scenario
                 ul
-                    li TBD
-                    li TBD
+                    li.
+                        Create a test that finds an element with <span class="badge-secondary">Welcome...</span> text.
                 h4 Playground
                 include text.html
         include footer.html
