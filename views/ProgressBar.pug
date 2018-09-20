@@ -1,0 +1,99 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p A web application may use a progress bar to reflect state of some lengthy process. Thus a test may need to read the value of a progress bar to determine if it is time to proceed or not.
+                h4 Scenario
+                ul
+                    li Create a test that clicks Start button and then waits for the progress bar to reach 75%. Then the test should click Stop. The less the differnce between value of the stopped progress bar and 75% the better your result.
+                h4 Playground
+                button(
+                    type="button" 
+                    class="btn btn-primary btn-test"
+                    id="startButton"
+                    onclick="Start()"
+                ) Start
+                button(
+                    type="button" 
+                    class="btn btn-info btn-test"
+                    id="stopButton"
+                    onclick="Stop()"
+                ) Stop                
+                br
+                br                
+                div(class="progress")
+                    div(class="progress-bar bg-info"
+                     id="progressBar"
+                     role="progressbar" 
+                     style="width: 25%;"
+                     aria-valuenow="25"
+                     aria-valuemin="0"
+                     aria-valuemax="100") 25%
+                div(id="content")
+                    p(id="result") Result: n/a
+
+        script.
+            var ratio = 25;
+            var started = false;
+            var startTime = 0;
+            var endTime = 0;
+            var delay = 100;
+            
+            function _setResult()
+            {
+                var label = document.getElementById("result");
+                label.innerHTML = "Result: " + (ratio == 25 ? "n/a" : ratio - 75) + ", duration: " + (endTime == 0 ? "n/a" : (endTime - startTime));
+            }
+
+            function Start()
+            {
+                var random = "" + (new Date()).getTime();
+                random = parseInt(random.substr(random.length - 3, 3));
+                delay = Math.floor(random/2);
+
+                startTime = new Date();
+                endTime = 0;
+                started = true;
+                ratio = 25;
+                
+                var progressBar = document.getElementById("progressBar");
+
+                _setResult();
+                _setProgress();
+
+                function _setProgress()
+                {
+                    progressBar.setAttribute("style", "width: " + ratio + "%");
+                    progressBar.setAttribute("aria-valuenow", ratio);
+                    progressBar.innerHTML = ratio + "%";
+                    endTime = new Date();
+                }
+
+                function _makeProgress()
+                {
+                    if (!started)
+                        return;
+                    ratio += 1;
+                    _setProgress();
+                    if (ratio < 100)
+                    {
+                        setTimeout(_makeProgress, delay);
+                    }
+                }
+
+                setTimeout(_makeProgress, 1000);
+            }
+
+            function Stop()
+            {
+                started = false;
+                _setResult();
+            }
+
+        include footer.html
+    

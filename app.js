@@ -85,6 +85,12 @@ app.get('/clientdelay', function (req, res) {
   })
 })
 
+app.get('/progressbar', function (req, res) {
+  res.render('ProgressBar', {
+    title: 'Progress Bar'
+  })
+})
+
 app.get('/classattr', function (req, res) {
 
   var collection = ['btn-primary', 'btn-success', 'btn-warning'];
