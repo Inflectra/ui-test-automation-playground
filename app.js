@@ -122,6 +122,12 @@ app.get('/scrollbars', function (req, res) {
   })
 })
 
+app.get('/visibility', function (req, res) {
+    res.render('Visibility', {
+      title: 'Visibility'
+    })
+  })
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

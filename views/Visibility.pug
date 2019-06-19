@@ -1,0 +1,112 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Checking if element is visible on screen may be a non trivial task. 
+                ul
+                    li An element may be removed (simplest case),
+                    li it may have zero height or width,
+                    li it may be covered by another element,
+                    li it may be hidden using styles: opacity: 0, visibility: hidden, display: none,
+                    li or moved offscreen.
+                h4 Scenario
+                ul
+                    li Learn locators of all buttons.
+                    li In your testing scenario press Hide button.
+                    li Determine if other buttons visible or not.
+                h4 Playground
+                table(
+                    width="100%"
+                    border="1"
+                )
+                    tr
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-primary"
+                                id="hideButton"
+                                onclick="HideButtons()"
+                            ) Hide
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-danger"
+                                id="removedButton"
+                            ) Removed
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-warning"
+                                id="zeroWidthButton"
+                            ) Zero Width
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-success"
+                                id="overlappedButton"
+                            ) Overlapped
+                            div(
+                                id="hidingLayer"
+                            )
+                    tr
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-info"
+                                id="transparentButton"
+                            ) Opacity 0
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-info"
+                                id="invisibleButton"
+                            ) Visibility Hidden
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-info"
+                                id="notdisplayedButton"
+                            ) Display None
+                        td(width="25%")
+                            button(
+                                type="button" 
+                                class="btn btn-info"
+                                id="offscreenButton"
+                            ) Offscreen
+
+        script.
+            function HideButtons()
+            {
+                // Remove button
+                $("#removedButton").remove();
+
+                // Zero width button
+                $("#zeroWidthButton").addClass("zerowidth");
+
+                // Button overlapped with another element
+                $('#hidingLayer').css('position', 'absolute');
+                $('#hidingLayer').css('background-color', 'white');                
+                var gb = $('#overlappedButton');
+                var width = gb[0].clientWidth + 2;
+                var height = gb[0].clientHeight + 2;
+                $('#hidingLayer').css('width', width);
+                $('#hidingLayer').css('height', height);
+                var left = gb.position().left;
+                var top = gb.position().top;
+                $('#hidingLayer').css('left', left);
+                $('#hidingLayer').css('top', top);
+
+                // Styled hidden
+                $("#transparentButton").css("opacity", 0);
+                $("#invisibleButton").css("visibility", "hidden");
+                $("#notdisplayedButton").css("display", "none");
+                $("#offscreenButton").addClass("offscreen");
+            }
+
+        include footer.html
+    
