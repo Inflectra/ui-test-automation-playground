@@ -1,0 +1,78 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Fill in and submit the form. For successfull login use any non-empty user name and `pwd` as password.
+                div(class="row")
+                    div(class="col-sm-4")
+                        label(id="loginstatus") User logged out.                
+                div(class="row")
+                    div(class="col-sm-4")
+                        input(
+                            type="text"
+                            class="form-control"
+                            placeholder="User Name"
+                            name="UserName"
+                            id="username"
+                        )
+                div(class="row")
+                    div(class="col-sm-4")
+                        input(
+                            type="password"
+                            class="form-control"
+                            placeholder="********"
+                            name="Password"
+                            id="password"
+                        )  
+                div(class="row")
+                    div(class="col-sm-4")
+                        button(
+                            type="button" 
+                            class="btn btn-primary"
+                            id="login"
+                            onclick="Login()"
+                        ) Log In
+
+        script.
+
+            function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+            }        
+
+            var userNameId = guid();
+            var un = document.getElementById("username");
+            un.id = userNameId;
+
+            var passwordId = guid();
+            var pwd = document.getElementById("password");
+            pwd.id = passwordId;
+
+            function Login()
+            { 
+                var ls = document.getElementById("loginstatus");
+                var un = document.getElementById(userNameId);
+                var pwd =  document.getElementById(passwordId);
+                if (pwd.value == "pwd" && un.value)
+                {
+                    ls.innerHTML = "Welcome, " + un.value + "!";
+                }
+                else
+                {
+                    ls.innerHTML = "User logged out.";                    
+                }
+            } 
+
+
+        include footer.html
+    

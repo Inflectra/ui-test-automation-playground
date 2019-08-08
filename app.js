@@ -128,6 +128,12 @@ app.get('/visibility', function (req, res) {
     })
   })
 
+app.get('/sampleapp', function (req, res) {
+    res.render('SampleApp', {
+      title: 'Sample App'
+    })
+  })
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)
