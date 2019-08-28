@@ -1,0 +1,65 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Placing mouse over an element may lead to changes in the DOM tree. For example another element may appear on top or original element may be modified or replaced. It means if you keep a reference to original element and will try to send a click to it - it may not work.
+                h4 Scenario
+                ul
+                    li Record 2 consecutive link clicks.
+                    li Execute the test and make sure that click count is increasing by 2.
+                h4 Playground
+                div
+                    a(
+                        title="Click me" 
+                        class="text-primary"
+                        onmouseenter="linkActive(this)"
+                    ) Click me
+                div
+                    p The link clicked <span id="clickCount" class="badge badge-light">0</span> times.
+
+        script.
+
+            function linkActive(el)
+            { 
+                var newEl = el.cloneNode(true);
+                newEl.setAttribute("title", "Active Link");
+                newEl.setAttribute("onmouseenter", "");
+                newEl.setAttribute("onmouseleave", "linkInactive(this)");
+                newEl.setAttribute("onclick", "linkClicked(this)")
+                newEl.setAttribute("class", "text-warning");
+
+                var parentNode = el.parentNode;
+                parentNode.removeChild(el);
+                parentNode.appendChild(newEl);
+            } 
+
+            function linkInactive(el)
+            {
+                var newEl = el.cloneNode(true);
+                newEl.setAttribute("title", el.innerText);
+                newEl.setAttribute("onmouseenter", "linkActive(this)");
+                newEl.setAttribute("onmouseleave", "");
+                newEl.setAttribute("onclick", "")
+                newEl.setAttribute("class", "text-primary");
+
+                var parentNode = el.parentNode;
+                parentNode.removeChild(el);
+                parentNode.appendChild(newEl);
+            }
+
+            function linkClicked(el)
+            {
+                var title = el.getAttribute("title");
+                
+                var badge = document.getElementById("clickCount");
+                badge.innerText = parseInt(badge.innerText) + 1;
+            }
+
+
+        include footer.html
+    

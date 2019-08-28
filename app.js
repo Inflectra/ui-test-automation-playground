@@ -134,6 +134,12 @@ app.get('/sampleapp', function (req, res) {
     })
   })
 
+app.get('/mouseover', function (req, res) {
+    res.render('MouseOver', {
+      title: 'Mouse Over'
+    })
+  })  
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)
