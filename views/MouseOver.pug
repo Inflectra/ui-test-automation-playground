@@ -7,7 +7,9 @@ html(lang="en")
         section
             div(class="container")
                 h3=title
-                p Placing mouse over an element may lead to changes in the DOM tree. For example another element may appear on top or original element may be modified or replaced. It means if you keep a reference to original element and will try to send a click to it - it may not work.
+                p Placing mouse over an element may lead to changes in the DOM tree. For example the  element may be modified or replaced. It means if you keep a reference to the original element and will try to click on it - it may not work.
+                p This puzzle complicates both recording and playback of a test.
+
                 h4 Scenario
                 ul
                     li Record 2 consecutive link clicks.
