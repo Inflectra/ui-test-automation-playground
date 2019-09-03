@@ -9,8 +9,12 @@ html(lang="en")
                 h3=title
                 p Fill in and submit the form. For successfull login use any non-empty user name and `pwd` as password.
                 div(class="row")
+                    br
                     div(class="col-sm-4")
-                        label(id="loginstatus") User logged out.                
+                        label(
+                            id="loginstatus"
+                            class="text-info"
+                            ) User logged out.                
                 div(class="row")
                     div(class="col-sm-4")
                         input(
@@ -31,6 +35,7 @@ html(lang="en")
                         )  
                 div(class="row")
                     div(class="col-sm-4")
+                        br
                         button(
                             type="button" 
                             class="btn btn-primary"
@@ -53,26 +58,48 @@ html(lang="en")
             var userNameId = guid();
             var un = document.getElementById("username");
             un.id = userNameId;
+            un.value = "";
 
             var passwordId = guid();
             var pwd = document.getElementById("password");
             pwd.id = passwordId;
+            pwd.value = "";
+
+            var loggedIn = false;
 
             function Login()
             { 
                 var ls = document.getElementById("loginstatus");
                 var un = document.getElementById(userNameId);
                 var pwd =  document.getElementById(passwordId);
-                if (pwd.value == "pwd" && un.value)
+                var login = document.getElementById("login");
+
+                if (loggedIn)
                 {
-                    ls.innerHTML = "Welcome, " + un.value + "!";
+                    ls.innerHTML = "User logged out.";
+                    ls.className = "text-info";
+                    un.value = "";
+                    pwd.value = "";                
+                    login.innerText = "Log In";
                 }
                 else
                 {
-                    ls.innerHTML = "User logged out.";                    
+                    if (pwd.value == "pwd" && un.value)
+                    {
+                        ls.innerHTML = "Welcome, " + un.value + "!";
+                        ls.className = "text-success";
+                        login.innerText = "Log Out";
+                        loggedIn = true;
+                    }
+                    else
+                    {
+                        ls.innerHTML = "Invalid username/password";
+                        ls.className = "text-danger";
+                        un.value = "";
+                        pwd.value = "";
+                    }
                 }
-            } 
-
+            }
 
         include footer.html
     
