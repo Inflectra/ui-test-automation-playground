@@ -140,6 +140,13 @@ app.get('/mouseover', function (req, res) {
     })
   })  
 
+app.get('/nbsp', function (req, res) {
+    res.render('Nbsp', {
+      title: 'Non-Breaking Space'
+    })
+  })  
+
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

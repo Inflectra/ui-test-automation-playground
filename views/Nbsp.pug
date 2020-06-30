@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p There are cases in test automation when something should obviously work but for some reason it does not. Searching for an element by its text is one of those cases. Text caption may contain non-breaking spaces that have no visual difference from generic spaces.
+                h4 Scenario
+                ul
+                    li Use the following xpath to find the button in your test:
+                        br
+                        br
+                        pre //button[text()='My Button']
+                    li Notice that the XPath does not work. Change the space between 'My' and 'Button' to a non-breaking space. This time the XPath should be valid.
+                h4 Playground
+                button(
+                    type="button" 
+                    class="btn btn-primary"
+                    id=buttonId
+                ) My&nbsp;Button
+
+        include footer.html
+    
