@@ -1,0 +1,45 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Entering text to a partially visible element may require scrolling it into view.
+                h4 Scenario
+                ul
+                    li Record setting text into the Name input field (scroll element before entering the text).
+                    li Then execute your test to make sure that the text was entered correctly.
+                h4 Playground
+                <div style="position: relative;">
+                    <div style="overflow-y: scroll; height:100px;">
+                    <input id="id" type="text" placeholder="Id"/>
+                    <br/><br/>
+                    <input id="name" type="text" placeholder="Name"/>
+                    <br/><br/>
+                    <input id="subject" type="text" placeholder="Subject"/>
+                    </div>
+                    <div style="position: absolute; width: 300px; height: 50px; background-color: #cccccc; top: 69px">
+                    </div>
+
+
+        script.
+            var nameElement = document.querySelector('#name');
+
+            nameElement.addEventListener('input', (event) => {
+
+                var crect = nameElement.getBoundingClientRect();
+
+                var centerX = crect.left + (crect.width >> 1);
+                var centerY = crect.top + (crect.height >> 1);
+                var elementAtPoint = document.elementFromPoint(centerX, centerY);
+                if(!nameElement.isSameNode(elementAtPoint)) 
+                {
+                    nameElement.value = "";
+                }
+            });
+
+
+        include footer.html
