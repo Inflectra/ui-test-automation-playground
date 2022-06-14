@@ -152,6 +152,12 @@ app.get('/overlapped', function (req, res) {
   })
 })  
 
+app.get('/shadowdom', function (req, res) {
+  res.render('ShadowDom', {
+    title: 'Shadow DOM'
+  })
+})  
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)
