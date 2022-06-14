@@ -1,0 +1,110 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p This is a page with a Shadow DOM component guid-generator. Using it one can generate a guid and copy it to the clipboard.
+                h4 Scenario
+                ul
+                    li Record click on <i class="fa fa-cog"></i> and then on <i class="fa fa-clone"></i> buttons. This sequence of steps generates new guid and copies it to the clipboard.
+                    li Learn input field with the generated guid.
+                    li Add an assertion step to your test to compare the value from the clipboard with the value of the input field.
+                    li Then execute the test to make sure that the assertion step is not failing.
+                h4 Playground
+                    br
+                    guid-generator
+
+        script.
+            class GuidGenerator extends HTMLElement {
+                constructor() {
+                    // Always call super first in constructor
+                    super();
+
+                    function guid() {
+                    function s4() {
+                        return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+                    }
+                    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                        s4() + '-' + s4() + s4() + s4();
+                    }	                    
+
+                    // Create a shadow root
+                    const shadow = this.attachShadow({mode: 'open'});
+
+                    // Create spans
+                    const editField = document.createElement('input');
+                    editField.setAttribute('class', 'edit-field');
+                    editField.setAttribute('id', 'editField');
+
+                    const buttonGenerate = document.createElement('button');
+                    buttonGenerate.setAttribute('class', 'button-generate');
+                    buttonGenerate.setAttribute('id', 'buttonGenerate');
+                    buttonGenerate.onclick = function()
+                    {
+                        editField.value = guid();
+                    }
+
+                    const generateIcon = document.createElement('i');
+                    generateIcon.setAttribute('class', 'fa fa-cog');
+                    buttonGenerate.appendChild(generateIcon);
+
+                    const buttonCopy = document.createElement('button');
+                    buttonCopy.setAttribute('class', 'button-copy');
+
+                    const copyIcon = document.createElement('i');
+                    copyIcon.setAttribute('class', 'fa fa-clone');
+                    buttonCopy.appendChild(copyIcon);
+                    buttonCopy.setAttribute('id', 'buttonCopy');
+                    buttonCopy.onclick = function()
+                    {
+                        var data = [new ClipboardItem({ "text/plain": new Blob([editField.value], { type: "text/plain" }) })];
+                        navigator.clipboard.write(data).then(function() {
+                            console.log("Copied to clipboard successfully!");
+                        }, function() {
+                            console.error("Unable to write to clipboard. :-(");
+                        });
+                    }
+
+                    // Create some CSS to apply to the shadow dom
+                    const style = document.createElement('style');
+                    style.textContent = `
+                    .edit-field {
+                        width: 300px;
+                    }
+
+                    .button-generate {
+                        width: 30px;
+                        height: 20px;
+                    }
+
+                    .button-copy {
+                        width: 30px;
+                        height: 20px;                     
+                    }
+
+                    `;
+
+                    let link = document.createElement('link');
+                    link.setAttribute('rel', 'stylesheet');
+                    link.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+                    // Attach the created elements to the shadow dom
+                    shadow.appendChild(link);
+                    shadow.appendChild(style);
+                    shadow.appendChild(editField);
+                    shadow.appendChild(buttonGenerate);
+                    shadow.appendChild(buttonCopy);
+                }
+            }
+
+            // Define the new element
+            customElements.define('guid-generator', GuidGenerator);
+
+
+        include footer.html
