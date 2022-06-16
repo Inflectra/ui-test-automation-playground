@@ -10,13 +10,12 @@ html(lang="en")
                 p This is a page with a Shadow DOM component guid-generator. Using it one can generate a guid and copy it to the clipboard.
                 h4 Scenario
                 ul
-                    li Record click on <i class="fa fa-cog"></i> and then on <i class="fa fa-clone"></i> buttons. This sequence of steps generates new guid and copies it to the clipboard.
-                    li Learn input field with the generated guid.
+                    li Create a test that clicks on <i class="fa fa-cog"></i> and then on <i class="fa fa-clone"></i> buttons. This sequence of steps generates new guid and copies it to the clipboard.
                     li Add an assertion step to your test to compare the value from the clipboard with the value of the input field.
                     li Then execute the test to make sure that the assertion step is not failing.
                 h4 Playground
-                    br
-                    guid-generator
+                h6 GUID Generator:
+                guid-generator
 
         script.
             class GuidGenerator extends HTMLElement {
