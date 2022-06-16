@@ -62,8 +62,7 @@ html(lang="en")
                     buttonCopy.setAttribute('id', 'buttonCopy');
                     buttonCopy.onclick = function()
                     {
-                        var data = [new ClipboardItem({ "text/plain": new Blob([editField.value], { type: "text/plain" }) })];
-                        navigator.clipboard.write(data).then(function() {
+                        navigator.clipboard.writeText(editField.value).then(function() {
                             console.log("Copied to clipboard successfully!");
                         }, function() {
                             console.error("Unable to write to clipboard. :-(");
