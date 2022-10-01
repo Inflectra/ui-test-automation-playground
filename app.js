@@ -158,12 +158,6 @@ app.get('/shadowdom', function (req, res) {
   })
 })
 
-app.get('/pwdgen', function (req, res) {
-  res.render('PasswordGenerator', {
-    title: 'Password Generator'
-  })
-})  
-
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)
