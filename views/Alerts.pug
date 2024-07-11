@@ -1,0 +1,67 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Dealing with standard alerts, prompts and confirmations is an important skill in test automation.
+                h4 Scenario
+                ul
+                    li Record clicks on `Alert`, `Confirm` and `Prompt` buttons. Click `OK` to confirm, answer with non-default value to the prompt.
+                    li Then execute your test to make sure that it passes completely without manual steps.
+                h4 Playground
+                button(
+                    id="alertButton"
+                    type="button" 
+                    class="btn btn-primary"
+                ) Alert
+                span &nbsp;
+                button(
+                    id="confirmButton"
+                    type="button" 
+                    class="btn btn-primary"
+                ) Confirm  
+                span &nbsp;
+                button(
+                    id="promptButton"
+                    type="button" 
+                    class="btn btn-primary"
+                ) Prompt
+
+        script.
+            function ClickEventHandler(event)
+            { 
+                if (event.target.id == "alertButton")
+                {
+                    alert("Today is a working day.\nOr less likely a holiday.");
+                    console.log("Alert closed");
+                }
+                else if (event.target.id == "confirmButton")
+                {
+                    if (confirm("Today is Friday.\nDo you agree?"))
+                    {
+                        setTimeout(function () { alert("Yes") }, 1000);
+                    }
+                    else 
+                    {
+                        setTimeout(function () { alert("No") }, 1000);
+                    }
+                }
+                else if (event.target.id == "promptButton")
+                {
+                    var res = prompt("Choose \"cats\" or 'dogs'.\nEnter your value:", "cats");
+                    if (res == null)
+                    {
+                        res = "no answer";
+                    }
+                    console.log("Prompt answer: " + res);
+                    setTimeout(function () { alert("User value: " + res) }, 1000);
+                }
+            } 
+            document.body.addEventListener('click', ClickEventHandler, true);
+
+
+        include footer.html

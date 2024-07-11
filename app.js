@@ -158,6 +158,12 @@ app.get('/shadowdom', function (req, res) {
   })
 })
 
+app.get('/alerts', function (req, res) {
+  res.render('Alerts', {
+    title: 'Alerts'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)
