@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Modern web applications often include file upload functionality, enabling users to easily share and manage documents, images, and other types of files directly from their devices, enhancing user interaction and content management.
+                h4 Scenario
+                ul
+                    li Attach a file via drag&drop.
+                    li Attach a file using `Browse files` button
+                h4 Playground
+                iframe(src="/static/upload.html" width="800" height="500" frameBorder="0")
+
+        include footer.html

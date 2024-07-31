@@ -164,6 +164,12 @@ app.get('/alerts', function (req, res) {
   })
 })
 
+app.get('/upload', function (req, res) {
+  res.render('Upload', {
+    title: 'File Upload'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

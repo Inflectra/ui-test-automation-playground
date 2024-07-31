@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="Trp.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.66368547"
+     inkscape:cx="1310.8619"
+     inkscape:cy="1053.2097"
+     inkscape:window-width="2560"
+     inkscape:window-height="1346"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <style
+       id="style833">.fa-secondary{opacity:.4}</style>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g882"
+       transform="matrix(0.09882565,0,0,0.09882565,93.595784,145.72965)">
+      <polygon
+         class="st0"
+         points="674,0 494,0 603,253 658,380 839,380 729,127 "
+         id="polygon852" />
+      <polygon
+         class="st0"
+         points="181,380 0,380 110,633 164,760 345,760 235,506 "
+         id="polygon854" />
+      <polygon
+         class="st0"
+         points="510,380 329,380 439,633 494,760 674,760 564,506 "
+         id="polygon856" />
+      <polygon
+         class="st0"
+         points="345,0 165,0 274,253 329,380 510,380 400,127 "
+         id="polygon858" />
+      <polygon
+         class="st1"
+         points="329,380 510,380 400,633 345,760 165,760 274,506 "
+         id="polygon860" />
+      <polygon
+         class="st1"
+         points="494,0 674,0 564,253 510,380 329,380 439,127 "
+         id="polygon862" />
+      <polygon
+         class="st1"
+         points="164,0 345,0 235,253 181,380 0,380 110,127 "
+         id="polygon864"
+         style="fill:#008000" />
+      <polygon
+         class="st1"
+         points="658,380 839,380 729,633 674,760 494,760 603,506 "
+         id="polygon866"
+         style="fill:#ff0000" />
+    </g>
+  </g>
+  <style
+     type="text/css"
+     id="style850">
+	.st0{fill:#8B4789;}
+	.st1{fill:#9FA4C4;}
+</style>
+</svg>
