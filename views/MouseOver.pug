@@ -7,7 +7,7 @@ html(lang="en")
         section
             div(class="container")
                 h3=title
-                p Placing mouse over an element may lead to changes in the DOM tree. For example the  element may be modified or replaced. It means if you keep a reference to the original element and will try to click on it - it may not work.
+                p Placing mouse over an element may lead to changes in the DOM tree. For example the  element may be modified or replaced. It means if you keep a reference to the original element and will try to click on it - it may not work (stale element problem).
                 p This puzzle complicates both recording and playback of a test.
 
                 h4 Scenario
@@ -16,13 +16,23 @@ html(lang="en")
                     li Execute the test and make sure that click count is increasing by 2.
                 h4 Playground
                 div
+                    p The link below will be replaced and new title assigned to it when you place mouse over it. Click on it to increase the click count.
                     a(
                         title="Click me" 
                         class="text-primary"
                         onmouseenter="linkActive(this)"
                     ) Click me
                 div
-                    p The link clicked <span id="clickCount" class="badge badge-light">0</span> times.
+                    p The link above clicked <span id="clickCount" class="badge badge-light">0</span> times.
+                div
+                    p The link below will be replaced with identical one when you place mouse over it. Click on it to increase the click count.
+                    a(
+                        title="Link Button" 
+                        class="text-primary"
+                        onmouseenter="linkButtonActive(this)"
+                    ) Link Button
+                div
+                    p The link above clicked <span id="clickButtonCount" class="badge badge-light">0</span> times.
 
         script.
 
@@ -56,11 +66,41 @@ html(lang="en")
 
             function linkClicked(el)
             {
-                var title = el.getAttribute("title");
-                
                 var badge = document.getElementById("clickCount");
                 badge.innerText = parseInt(badge.innerText) + 1;
             }
+
+            function linkButtonActive(el)
+            { 
+                var newEl = el.cloneNode(true);
+                newEl.setAttribute("onmouseenter", "");
+                newEl.setAttribute("onmouseleave", "linkButtonInactive(this)");
+                newEl.setAttribute("onclick", "linkButtonClicked(this)")
+                newEl.setAttribute("class", "text-warning");
+
+                var parentNode = el.parentNode;
+                parentNode.removeChild(el);
+                parentNode.appendChild(newEl);
+            } 
+
+            function linkButtonInactive(el)
+            {
+                var newEl = el.cloneNode(true);
+                newEl.setAttribute("onmouseenter", "linkButtonActive(this)");
+                newEl.setAttribute("onmouseleave", "");
+                newEl.setAttribute("onclick", "")
+                newEl.setAttribute("class", "text-primary");
+
+                var parentNode = el.parentNode;
+                parentNode.removeChild(el);
+                parentNode.appendChild(newEl);
+            }
+
+            function linkButtonClicked(el)
+            {
+                var badge = document.getElementById("clickButtonCount");
+                badge.innerText = parseInt(badge.innerText) + 1;
+            }            
 
 
         include footer.html
