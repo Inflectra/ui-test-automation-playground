@@ -170,6 +170,12 @@ app.get('/upload', function (req, res) {
   })
 })
 
+app.get('/animation', function (req, res) {
+  res.render('Animation', {
+    title: 'Animated Button'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

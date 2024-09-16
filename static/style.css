@@ -133,3 +133,18 @@ li.active {
     top: -9999px;
     left: -9999px;
  }
+
+#movingTarget {
+	margin-left: 100px;
+}
+
+.spin {
+  position:absolute;
+  animation: orbit 5s forwards;
+  animation-timing-function: linear;
+}
+
+@-webkit-keyframes orbit {
+    from {  -webkit-transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    to   {  -webkit-transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}

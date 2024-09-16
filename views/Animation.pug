@@ -1,0 +1,63 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Before clicking a button we may need to wait for it to become stable (not moving).
+                h4 Scenario
+                ul
+                    li Record `Start Animation` button click. Wait for animation to complete and record click on `Moving Target`.
+                    li Then execute your test to make sure that when Moving Target is clicked, it's class does not contain 'spin'. The class is printed on the status label below the buttons.
+                h4 Playground
+                button(
+                    id="animationButton"
+                    type="button" 
+                    class="btn btn-secondary"
+                    onclick="startAnimation()"
+                ) Start Animation
+                span &nbsp;
+                button(
+                    id="movingTarget"
+                    type="button" 
+                    class="btn btn-primary"
+                    onclick="movingTargetClicked()"
+                    onanimationend="animationDone()"
+                ) Moving Target   
+                div(
+                    id="opstatus"
+                ) ---
+  
+        script.
+            function byid(id) 
+            {
+                return document.getElementById(id);
+            }
+
+            function setStatus(txt)
+            {
+                byid("opstatus").innerText = txt;
+            }
+
+            function startAnimation()
+            {
+                setStatus("Animating the button...");
+                byid("movingTarget").className = "btn btn-primary spin";
+            }
+
+            function animationDone()
+            {
+                byid("movingTarget").className = "btn btn-primary";
+                setStatus("Animation done");
+            }
+
+            function movingTargetClicked()
+            {
+                setStatus("Moving Target clicked. It's class name is '" + byid("movingTarget").className + "'");
+            }
+
+        include footer.html
+    
