@@ -176,6 +176,12 @@ app.get('/animation', function (req, res) {
   })
 })
 
+app.get('/disabledinput', function (req, res) {
+  res.render('DisabledInput', {
+    title: 'Disabled Input'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

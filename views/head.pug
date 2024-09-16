@@ -23,3 +23,13 @@ head
         href="/static/style.css"
     )
     title=title
+    script.
+        function byid(id) 
+        {
+            return document.getElementById(id);
+        }
+
+        function setStatus(txt)
+        {
+            byid("opstatus").innerText = txt;
+        }

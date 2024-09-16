@@ -1,0 +1,46 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Sometimes elements become enabled after some time they are rendered on the page. A test should be able to wait for an element to become enabled.
+                h4 Scenario
+                ul
+                    li Record button click. Also record text input into an edit field.
+                    li Make a test that enters text as soon as the edit field becomes enabled.
+                h4 Playground
+                <div class="form-group">
+                    input(
+                        id="inputField"
+                        title="Edit Field"
+                        onchange="setStatus('Value changed to: ' + this.value)"
+                        class="form-control"
+                        placeholder="Change me..."
+                    )
+                br
+                button(
+                    id="enableButton"
+                    class="btn btn-primary"
+                    onclick="enableEditFieldWithDelay()"
+                ) Enable Edit Field with 5 seconds delay
+                div(
+                    id="opstatus"
+                ) ---                                
+  
+        script.
+            function enableEditFieldWithDelay()
+            {
+                byid('inputField').disabled = true;
+                setStatus('Input Disabled...');
+                setTimeout(()=>{
+                    byid('inputField').disabled = false;
+                    setStatus('Input Enabled...');
+                },5000);
+            }
+
+        include footer.html
+    
