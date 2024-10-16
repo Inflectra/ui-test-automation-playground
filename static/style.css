@@ -144,6 +144,10 @@ li.active {
   animation-timing-function: linear;
 }
 
+ul.indented-right {
+    padding-left: 20px;    
+}
+
 @-webkit-keyframes orbit {
     from {  -webkit-transform: rotate(0deg) translateX(150px) rotate(0deg); }
     to   {  -webkit-transform: rotate(360deg) translateX(150px) rotate(-360deg); }

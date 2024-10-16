@@ -182,6 +182,12 @@ app.get('/disabledinput', function (req, res) {
   })
 })
 
+app.get('/autowait', function (req, res) {
+  res.render('AutoWait', {
+    title: 'Auto Wait'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

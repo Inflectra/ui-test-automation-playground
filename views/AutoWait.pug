@@ -1,0 +1,295 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Before clicking an element or entering text we may need to wait until the element becomes interactable.
+                h4 Scenario
+                ul
+                    li Choose an element type from the combobox.
+                    li Check the checkboxes to set the element's properties.
+                    li Then click one of the Apply buttons to immediately apply the settings and restore interactable state of the element after a delay.
+                    li Interact with the element in the Playground section (click, select item, enter text).
+                    li Observe the status messages.
+                div.row
+                    div.col-6
+                        h4 Settings
+                        form
+                            // ComboBox
+                            div(class="mb-3")
+                                label(for="element-type" class="form-label") Choose an element type:&nbsp;
+                                select(id="element-type" name="element-type" class="form-select")
+                                    option(value="button") Button
+                                    option(value="input") Input
+                                    option(value="textarea") Textarea
+                                    option(value="select") Select
+                                    option(value="label") Label
+
+                                // Checkboxes (No bullets in the list)
+                                ul(class="list-unstyled indented-right")
+                                    li(class="form-check")
+                                        input(type="checkbox" id="visible" name="visible" class="form-check-input" checked)
+                                        label(for="visible" class="form-check-label") Visible
+                                    li(class="form-check")
+                                        input(type="checkbox" id="enabled" name="enabled" class="form-check-input" checked)
+                                        label(for="enabled" class="form-check-label") Enabled
+                                    li(class="form-check")
+                                        input(type="checkbox" id="editable" name="editable" class="form-check-input" checked)
+                                        label(for="editable" class="form-check-label") Editable
+                                    li(class="form-check")
+                                        input(type="checkbox" id="ontop" name="ontop" class="form-check-input" checked)
+                                        label(for="ontop" class="form-check-label") On Top
+                                    li(class="form-check")
+                                        input(type="checkbox" id="nonzero" name="nonzero" class="form-check-input" checked)
+                                        label(for="nonzero" class="form-check-label") Non Zero Size                                        
+                            button(
+                                id="applyButton3"
+                                type="button" 
+                                class="btn btn-secondary"
+                                onclick="applySettings(3)"
+                            ) Apply 3s
+                            span &nbsp;
+                            button(
+                                id="applyButton5"
+                                type="button" 
+                                class="btn btn-secondary"
+                                onclick="applySettings(5)"
+                            ) Apply 5s
+                            span &nbsp;
+                            button(
+                                id="applyButton10"
+                                type="button" 
+                                class="btn btn-secondary"
+                                onclick="applySettings(10)"
+                            ) Apply 10s                                                     
+                    div.col-6
+                        h4 Playground
+                        div(id="element-container")
+                            button(
+                                id="target"
+                                type="button" 
+                                class="btn btn-primary"
+                                onclick="targetClicked()"
+                            ) Button   
+                        div(
+                            id="opstatus"
+                        ) ---
+  
+        script.
+            var options = {
+                visible: true,
+                enabled: true,
+                editable: true,
+                ontop: true
+            };
+
+            // Process checkbox clicks
+            document.querySelectorAll('.form-check-input').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                console.log(this.id + ' checkbox clicked. Checked: ' + this.checked);
+                options[this.id] = this.checked;
+                });
+            });
+
+            // Handle combobox change and check all checkboxes
+            document.getElementById('element-type').addEventListener('change', function() {
+                console.log('Combobox selection changed. Checking all checkboxes.');
+                document.querySelectorAll('.form-check-input').forEach(checkbox => {
+                    checkbox.checked = true;
+                    options[checkbox.id] = true;
+                });
+
+                var parentElement = document.getElementById('element-container');
+                var childElement = document.getElementById('target');
+                parentElement.removeChild(childElement);
+
+                if (this.value == "input")
+                {
+                    var input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = 'target';
+                    input.className = 'form-control';
+                    input.onclick = targetClicked;
+                    parentElement.appendChild(input);
+                    input.addEventListener('change', function(event) {
+                        setStatus("Text: " + this.value);
+                    });                       
+                }
+                else if (this.value == "textarea")
+                {
+                    var textarea = document.createElement('textarea');
+                    textarea.id = 'target';
+                    textarea.className = 'form-control';
+                    textarea.onclick = targetClicked;
+                    parentElement.appendChild(textarea);
+                    textarea.addEventListener('change', function(event) {
+                        setStatus("Text: " + this.value);
+                    });                     
+                }
+                else if (this.value == "select")
+                {
+                    var select = document.createElement('select');
+                    select.id = 'target';
+                    select.className = 'form-select';
+                    var optionItems = ['Item 1', 'Item 2', 'Item 3'];
+                    optionItems.forEach(function(item) {
+                        var option = document.createElement('option');
+                        option.value = item;
+                        option.textContent = item;
+                        select.appendChild(option);                    
+                    });
+                    parentElement.appendChild(select);
+                    select.addEventListener('change', function(event) {
+                        setStatus("Selected: " + this.value);
+                    });
+                    select.addEventListener('click', function(event) {
+                        if (event.detail == 1)
+                        {
+                            setStatus("Target clicked.");
+                        }
+                    });                                       
+                }
+                else if (this.value == "label")
+                {
+                    var label = document.createElement('label');
+                    label.id = 'target';
+                    label.className = 'form-label';
+                    label.onclick = targetClicked;
+                    label.innerHTML = "This is a Label";
+                    parentElement.appendChild(label);
+                }
+                else
+                {
+                    var button = document.createElement('button');
+                    button.id = 'target';
+                    button.className = 'btn btn-primary';
+                    button.onclick = targetClicked;
+                    button.innerHTML = 'Button';
+                    parentElement.appendChild(button);
+                }
+                setStatus("");
+            });  
+
+            var lastWidth;
+            var lastHeight;
+            var lastPadding;
+            var lastBorder;
+
+            function applyOptions()
+            {
+                var element = document.getElementById('target');
+                element.style.visibility = options.visible ? 'visible' : 'hidden';
+                if (element.tagName != 'LABEL')
+                {
+                    element.disabled = !options.enabled;
+                }
+                if (element.tagName == 'INPUT' || element.tagName == 'TEXTAREA')
+                {
+                    element.readOnly = !options.editable;
+                }
+
+                if (!options.ontop)
+                {
+                    createOverlayElement();
+                }
+                else
+                {
+                    deleteOverlayElement();
+                }
+
+                if (!options.nonzero)
+                {
+                    const computedStyle = window.getComputedStyle(element);
+                    lastWidth = computedStyle.width;
+                    lastHeight = computedStyle.height;
+                    lastPadding = computedStyle.padding;
+                    lastBorder = computedStyle.border;
+                    element.style.width = "0px";
+                    element.style.height = "0px";
+                    element.style.padding = "0px";
+                    element.style.border = "none"; 
+                    if (element.tagName == 'LABEL')
+                    {
+                        element.style.overflow = 'hidden'; 
+                    }
+                    else if (element.tagName == 'BUTTON')
+                    {
+                        element.style.pointerEvents = 'none';
+                    }
+                }
+                else 
+                {
+                    if (element.style.width == "0px")
+                    {
+                        element.style.width = lastWidth;
+                        element.style.height = lastHeight;
+                        element.style.padding = lastPadding;
+                        element.style.border = lastBorder;
+                        if (element.tagName == 'LABEL')
+                        {
+                            element.style.overflow = 'auto'; 
+                        } 
+                        else if (element.tagName == 'BUTTON')
+                        {
+                            element.style.pointerEvents = 'auto';
+                        }                       
+                    }
+                }
+            }
+
+            function applySettings(timeout)
+            {
+                setStatus(`Target element settings applied for ${timeout} seconds.`);
+                applyOptions();
+
+                setTimeout(function() {
+
+                    setStatus("Target element state restored.");
+                    document.querySelectorAll('.form-check-input').forEach(checkbox => {
+                        checkbox.checked = true;
+                        options[checkbox.id] = true;
+                    });         
+                    applyOptions();
+                }, timeout * 1000);
+            }   
+
+            function createOverlayElement()
+            {
+                var targetElement = document.getElementById('target');
+                var targetRect = targetElement.getBoundingClientRect();
+                var overlayElement = document.createElement('div');
+
+                overlayElement.id = 'overlay';
+
+                overlayElement.style.position = 'absolute';
+                overlayElement.style.top = targetRect.top + 'px';
+                overlayElement.style.left = targetRect.left + 'px';
+                overlayElement.style.width = targetRect.width + 'px';
+                overlayElement.style.height = targetRect.height + 'px';
+
+                overlayElement.style.zIndex = '1000'; // Higher than the target's z-index
+                overlayElement.style.backgroundColor = 'rgba(255, 0, 0, 0.5)'; // Semi-transparent red
+
+                document.body.appendChild(overlayElement);
+            }  
+
+            function deleteOverlayElement()
+            {
+                var overlayElement = document.getElementById('overlay');
+                if (overlayElement)
+                {
+                    overlayElement.remove();
+                }
+            }
+
+            function targetClicked()
+            {
+                setStatus("Target clicked.");
+            }
+
+        include footer.html
+    
