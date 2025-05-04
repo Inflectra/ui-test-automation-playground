@@ -12,7 +12,7 @@ describe('UI Test Automation Playground', () => {
         cy.visit('/classattr')
 
         cy.on('window:alert', cy.stub().as('alert'))
-        cy.get('.btn-primary').click()
+        cy.get('.btn-primary').click() 
         cy.get('@alert').should('have.been.calledWith', 'Primary button pressed')
     })
 })
