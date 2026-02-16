@@ -188,6 +188,12 @@ app.get('/autowait', function (req, res) {
   })
 })
 
+app.get('/frames', function (req, res) {
+  res.render('Frames', {
+    title: 'Frames'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

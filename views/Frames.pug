@@ -1,0 +1,93 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Working with frames requires switching context. Automation tools need to locate frames and switch into them before interacting with elements inside. This page contains nested frames with identical button markup to practice element location strategies.
+                h4 Element Search Strategies
+                ul
+                    li <b>data-* attribute</b> - find button by custom data attribute value
+                    li <b>text</b> - find button by inner text content
+                    li <b>name</b> - find button by @name attribute
+                    li <b>xpath with class</b> - find button by class using XPath
+                h4 Scenario
+                ul
+                    li Switch to the outer frame (level 1).
+                    li Find and click each button using different locator strategies.
+                    li Switch to the inner frame (level 2) nested inside the outer frame.
+                    li Find and click the same buttons (identical markup) in the inner frame.
+                h4 Playground
+                iframe#frame-outer(
+                    name="frame-outer"
+                    title="Outer Frame"
+                    style="width: 100%; height: 270px; border: 2px solid #007bff;"
+                )
+
+        script.
+            const buttonMarkup = `
+                <button data-action="edit" onclick="showResult('Edit')">Edit</button>
+                <button onclick="showResult('Submit')">Submit</button>
+                <button name="my-button" onclick="showResult('Click me')">Click me</button>
+                <button class="btn-class" onclick="showResult('Primary')">Primary</button>
+            `;
+
+            const frameScript = `
+                <script>
+                    function showResult(text) {
+                        document.getElementById('result').textContent = 'Button pressed: ' + text;
+                    }
+                <\/script>
+            `;
+
+            const innerFrameContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 10px; margin: 0; background-color: #d4edda; }
+                        .frame-label { color: #155724; font-weight: bold; margin-bottom: 8px; }
+                        button { margin: 3px; padding: 8px 16px; cursor: pointer; }
+                        #result { margin-top: 8px; font-style: italic; color: #333; min-height: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="frame-label">Inner Frame (Level 2)</div>
+                    ${buttonMarkup}
+                    <div id="result"></div>
+                    ${frameScript}
+                </body>
+                </html>
+            `;
+
+            const outerFrameContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 10px; margin: 0; background-color: #cce5ff; }
+                        .frame-label { color: #004085; font-weight: bold; margin-bottom: 8px; }
+                        button { margin: 3px; padding: 8px 16px; cursor: pointer; }
+                        iframe { margin-top: 10px; display: block; }
+                        #result { margin-top: 8px; font-style: italic; color: #333; min-height: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="frame-label">Outer Frame (Level 1)</div>
+                    ${buttonMarkup}
+                    <div id="result"></div>
+                    <iframe id="frame-inner" name="frame-inner" title="Inner Frame"
+                        style="width: 100%; height: 130px; border: 2px solid #28a745;"
+                        srcdoc="${innerFrameContent.replace(/"/g, '&quot;')}">
+                    </iframe>
+                    ${frameScript}
+                </body>
+                </html>
+            `;
+
+            document.getElementById('frame-outer').srcdoc = outerFrameContent;
+
+        include footer.html
