@@ -194,6 +194,12 @@ app.get('/frames', function (req, res) {
   })
 })
 
+app.get('/geolocation', function (req, res) {
+  res.render('GeoLocation', {
+    title: 'Geo Location'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

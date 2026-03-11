@@ -1,0 +1,47 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Modern web applications often request access to device location. The browser prompts the user to Allow or Deny the request. Test automation tools need to handle these permission prompts appropriately.
+                h4 Scenario
+                ul
+                    li Click the button to trigger a geolocation request.
+                    li Handle the browser permission prompt (Allow or Deny).
+                    li Verify that the label displays coordinates or "unavailable" based on the user's choice.
+                h4 Playground
+                button(
+                    id="requestLocation"
+                    type="button"
+                    class="btn btn-primary"
+                ) Request Location
+                p(class="mt-3")
+                    | Location: 
+                    span(id="location") Not requested
+
+        script.
+            document.getElementById('requestLocation').addEventListener('click', function() {
+                document.getElementById('location').textContent = 'Requesting...';
+                
+                if (!navigator.geolocation) {
+                    document.getElementById('location').textContent = 'unavailable';
+                    return;
+                }
+                
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        var lat = position.coords.latitude.toFixed(6);
+                        var lon = position.coords.longitude.toFixed(6);
+                        document.getElementById('location').textContent = lat + ', ' + lon;
+                    },
+                    function(error) {
+                        document.getElementById('location').textContent = 'unavailable';
+                    }
+                );
+            });
+
+        include footer.html
