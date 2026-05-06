@@ -200,6 +200,12 @@ app.get('/geolocation', function (req, res) {
   })
 })
 
+app.get('/clearinput', function (req, res) {
+  res.render('ClearInput', {
+    title: 'Clear Input'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

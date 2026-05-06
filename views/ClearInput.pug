@@ -1,0 +1,123 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Clearing text from input controls seems like a simple task but it has many nuances. Different control types handle text selection and deletion differently. A robust test automation tool should be able to clear pre-filled text from any type of text input control reliably.
+                h4 Scenario
+                ul
+                    li Each input below is pre-filled with text.
+                    li Clear the text in each input field using your automation tool.
+                    li Verify that all fields are empty after clearing.
+                    li The status label below the playground shows the number of non-empty fields remaining.
+                h4 Playground
+                div(class="form-group")
+                    label(for="clearInput") Input (type=text)
+                    input(
+                        id="clearInput"
+                        type="text"
+                        class="form-control clear-target"
+                        value="Initial Text Value"
+                        oninput="updateStatus()"
+                    )
+                div(class="form-group")
+                    label(for="clearTextarea") Textarea
+                    textarea(
+                        id="clearTextarea"
+                        class="form-control clear-target"
+                        rows="3"
+                        oninput="updateStatus()"
+                    ) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, libero eget bibendum.
+                div(class="form-group")
+                    label(for="clearPassword") Input (type=password)
+                    input(
+                        id="clearPassword"
+                        type="password"
+                        class="form-control clear-target"
+                        value="MySecretPassword"
+                        oninput="updateStatus()"
+                    )
+                div(class="form-group")
+                    label(for="clearEmail") Input (type=email)
+                    input(
+                        id="clearEmail"
+                        type="email"
+                        class="form-control clear-target"
+                        value="user@example.com"
+                        oninput="updateStatus()"
+                    )
+                div(class="form-group")
+                    label(for="clearNumber") Input (type=number)
+                    input(
+                        id="clearNumber"
+                        type="number"
+                        class="form-control clear-target"
+                        value="42"
+                        oninput="updateStatus()"
+                    )
+                div(class="form-group")
+                    label(for="clearSearch") Input (type=search)
+                    input(
+                        id="clearSearch"
+                        type="search"
+                        class="form-control clear-target"
+                        value="Search query"
+                        oninput="updateStatus()"
+                    )
+                div(class="form-group")
+                    label(for="clearUrl") Input (type=url)
+                    input(
+                        id="clearUrl"
+                        type="url"
+                        class="form-control clear-target"
+                        value="https://www.example.com"
+                        oninput="updateStatus()"
+                    )
+                div(class="form-group")
+                    label(for="clearTel") Input (type=tel)
+                    input(
+                        id="clearTel"
+                        type="tel"
+                        class="form-control clear-target"
+                        value="+1 (555) 123-4567"
+                        oninput="updateStatus()"
+                    )
+                div(class="form-group")
+                    label(for="clearContentEditable") Content Editable Div
+                    div(
+                        id="clearContentEditable"
+                        class="form-control clear-target"
+                        contenteditable="true"
+                        style="min-height: 60px"
+                        oninput="updateStatus()"
+                    ) This is an editable div element. It behaves differently from standard input fields.
+                br
+                div(
+                    id="opstatus"
+                ) Non-empty fields remaining: 9
+
+        script.
+            function updateStatus() {
+                var fields = document.querySelectorAll('.clear-target');
+                var nonEmpty = 0;
+                fields.forEach(function(field) {
+                    var value = '';
+                    if (field.tagName === 'DIV') {
+                        value = field.textContent.trim();
+                    } else {
+                        value = field.value.trim();
+                    }
+                    if (value.length > 0) {
+                        nonEmpty++;
+                    }
+                });
+                byid('opstatus').innerText = nonEmpty === 0 
+                    ? 'All fields are cleared!' 
+                    : 'Non-empty fields remaining: ' + nonEmpty;
+            }
+
+        include footer.html
