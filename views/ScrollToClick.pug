@@ -1,0 +1,133 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Clicking an element that is not currently visible in the viewport requires scrolling. Sometimes the element itself is inside a scrollable container. Other times a parent container must be scrolled first to bring the child container into view. A robust test must handle all these cases.
+                h4 Scenario
+                ul
+                    li Find each target button and click it.
+                    li Some buttons require scrolling the page, some require scrolling a container, and some require scrolling a parent first.
+                    li One button only appears when you hover over its parent element.
+                    li After clicking a button it turns green and shows "Clicked!".
+                    li Click all four buttons to complete the challenge.
+                h4 Playground
+
+                //- Case 1: Button far below the visible area of the page
+                h5 Case 1 — Page Scroll
+                p The button below is placed far down the page so it is out of the initial viewport.
+                div(id="case1-spacer" style="height:600px; background: linear-gradient(to bottom, #f8f9fa, #e9ecef); display:flex; align-items:center; justify-content:center;")
+                    span(style="color:#6c757d; font-style:italic;") ↓ Scroll down to find the button ↓
+                button(
+                    type="button"
+                    class="btn btn-primary"
+                    id="scrollTarget1"
+                    onclick="this.classList.remove('btn-primary');this.classList.add('btn-success');this.innerText='Clicked!';updateProgress();"
+                ) Button 1
+
+                //- Case 2: Button inside a scrollable container (horizontal + vertical)
+                h5(style="margin-top:40px;") Case 2 — Container Scroll
+                p The button is hidden inside a scrollable container. You need to scroll within the container to reach it.
+                div(id="scrollContainer2" style="height:200px; width:400px; overflow:auto; border:2px solid #dee2e6; border-radius:4px; margin-bottom:20px;")
+                    div(style="height:500px; width:800px; position:relative;")
+                        div(style="position:absolute; top:20px; left:20px; color:#6c757d; font-style:italic;") ↘ Scroll right and down inside this box
+                        div(style="position:absolute; top:400px; left:600px;")
+                            button(
+                                type="button"
+                                class="btn btn-primary"
+                                id="scrollTarget2"
+                                onclick="this.classList.remove('btn-primary');this.classList.add('btn-success');this.innerText='Clicked!';updateProgress();"
+                            ) Button 2
+
+                //- Case 3: Button inside a nested structure where the outer container must be scrolled
+                //- to reveal the inner container, then the inner container must be scrolled to reveal the button
+                h5(style="margin-top:40px;") Case 3 — Nested Scroll (Parent + Child)
+                p The button is inside a nested scrollable structure. First scroll the outer container to reveal the inner one, then scroll the inner container to find the button.
+                div(id="outerScroll3" style="height:250px; overflow-y:auto; border:2px solid #dee2e6; border-radius:4px; margin-bottom:20px;")
+                    div(style="padding:20px;")
+                        p(style="color:#6c757d; font-style:italic;") ↓ Scroll down in this outer container to find the inner box
+                        div(style="height:300px;")
+                        div(id="innerScroll3" style="height:150px; width:350px; overflow:auto; border:2px dashed #adb5bd; border-radius:4px; background:#f8f9fa;")
+                            div(style="height:100px; width:700px; position:relative;")
+                                span(style="position:absolute; top:10px; left:10px; color:#6c757d; font-style:italic;") → Scroll right inside this inner box
+                                div(style="position:absolute; top:50px; left:550px;")
+                                    button(
+                                        type="button"
+                                        class="btn btn-primary"
+                                        id="scrollTarget3"
+                                        onclick="this.classList.remove('btn-primary');this.classList.add('btn-success');this.innerText='Clicked!';updateProgress();"
+                                    ) Button 3
+
+                //- Case 4: Button hidden until parent is hovered (like Outlook flag button)
+                h5(style="margin-top:40px;") Case 4 — Hover to Reveal
+                p The button below is hidden until you hover over its parent row — similar to action buttons in email clients that only appear on hover.
+                div(id="hoverList" style="border:2px solid #dee2e6; border-radius:4px; margin-bottom:20px;")
+                    div(class="hover-row" style="padding:12px 16px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:space-between;")
+                        span Meeting notes - Q4 planning
+                        button(
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary hover-action"
+                            disabled
+                            style="visibility:hidden;"
+                        ) ⚑
+                    div(class="hover-row" style="padding:12px 16px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:space-between;")
+                        span Re: Project deadline update
+                        button(
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary hover-action"
+                            disabled
+                            style="visibility:hidden;"
+                        ) ⚑
+                    div(class="hover-row" id="targetRow4" style="padding:12px 16px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:space-between;")
+                        span Weekly status report
+                        button(
+                            type="button"
+                            class="btn btn-sm btn-primary hover-action"
+                            id="scrollTarget4"
+                            style="visibility:hidden;"
+                            onclick="this.classList.remove('btn-primary');this.classList.add('btn-success');this.innerText='Clicked!';updateProgress();"
+                        ) ⚑ Flag
+                    div(class="hover-row" style="padding:12px 16px; display:flex; align-items:center; justify-content:space-between;")
+                        span Invitation: Team lunch Friday
+                        button(
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary hover-action"
+                            disabled
+                            style="visibility:hidden;"
+                        ) ⚑
+
+                //- Progress indicator
+                div(id="progress" style="margin-top:30px; padding:15px; border-radius:4px; background:#f8f9fa; text-align:center;")
+                    span(id="progressText") Buttons clicked: 0 / 4
+
+        style.
+            .hover-row {
+                transition: background-color 0.15s;
+            }
+            .hover-row:hover {
+                background-color: #f0f4ff;
+            }
+            .hover-row:hover .hover-action {
+                visibility: visible !important;
+            }
+
+        script.
+            function updateProgress() {
+                var count = 0;
+                if (document.getElementById('scrollTarget1').classList.contains('btn-success')) count++;
+                if (document.getElementById('scrollTarget2').classList.contains('btn-success')) count++;
+                if (document.getElementById('scrollTarget3').classList.contains('btn-success')) count++;
+                if (document.getElementById('scrollTarget4').classList.contains('btn-success')) count++;
+                var el = document.getElementById('progressText');
+                el.innerText = 'Buttons clicked: ' + count + ' / 4';
+                if (count === 4) {
+                    document.getElementById('progress').style.background = '#d4edda';
+                    el.innerText = 'All buttons clicked!';
+                }
+            }
+
+        include footer.html

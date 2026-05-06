@@ -206,6 +206,12 @@ app.get('/clearinput', function (req, res) {
   })
 })
 
+app.get('/scrolltoclick', function (req, res) {
+  res.render('ScrollToClick', {
+    title: 'Scroll to Click'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)
