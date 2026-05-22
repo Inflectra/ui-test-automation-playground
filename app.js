@@ -212,6 +212,12 @@ app.get('/scrolltoclick', function (req, res) {
   })
 })
 
+app.get('/cssselectors', function (req, res) {
+  res.render('CssSelectors', {
+    title: 'CSS Selectors'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)

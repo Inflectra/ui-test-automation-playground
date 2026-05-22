@@ -1,0 +1,301 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p This page contains elements that can be located using various CSS selectors. It also includes nested Shadow DOM levels and elements with different visibility states.
+                h4 Scenario
+                ul
+                    li Practice locating elements using ID, class, attribute, and combinatory CSS selectors.
+                    li Pierce through multiple levels of Shadow DOM to reach deeply nested elements.
+                    li Use <code>:visible</code> and <code>:hidden</code> pseudo-classes to filter elements by visibility state.
+                h4 Playground
+
+                //- === ID Selector ===
+                h5(data-id="section-id") ID Selector
+                button(id="primary-btn" class="btn btn-primary" data-id="primary-btn") Primary Button
+
+                //- === Class Selector ===
+                h5(class="mt-3" data-id="section-class") Class Selector
+                div(class="css-btn-group" data-id="btn-group")
+                    button(class="btn btn-info css-btn" data-id="class-btn-first") First
+                    button(class="btn btn-info css-btn" data-id="class-btn-second") Second
+                    button(class="btn btn-info css-btn highlight" data-id="class-btn-third") Third
+
+                //- === Attribute Selectors ===
+                h5(class="mt-3" data-id="section-attr") Attribute Selectors
+                div(class="attr-section" data-id="attr-section")
+                    input(type="text" data-testid="username-input" placeholder="Username" class="form-control mb-2" style="max-width:300px" data-id="attr-username")
+                    input(type="email" data-testid="email-input" placeholder="Email" class="form-control mb-2" style="max-width:300px" data-id="attr-email")
+                    a(href="https://example.com" target="_blank" class="btn btn-link" data-id="attr-link") External Link
+                    span(data-status="active" class="badge badge-success ml-2" data-id="attr-active") Active
+                    span(data-status="inactive" class="badge badge-secondary ml-2" data-id="attr-inactive") Inactive
+
+                //- === Combinatory Selectors (descendant, child, sibling) ===
+                h5(class="mt-3" data-id="section-combo") Combinatory Selectors
+                div(id="combo-container" data-id="combo-container")
+                    ul(class="combo-list" data-id="combo-list")
+                        li(class="combo-item" data-id="combo-item-1") Item 1
+                        li(class="combo-item special" data-id="combo-item-2") Item 2 (special)
+                        li(class="combo-item" data-id="combo-item-3") Item 3
+                    div(class="combo-adjacent" data-id="combo-adjacent")
+                        p(class="first-para" data-id="combo-para-1") First paragraph
+                        p(class="second-para" data-id="combo-para-2") Second paragraph (adjacent sibling)
+                        span(class="following-span" data-id="combo-span") Following span (general sibling)
+
+                //- === Nth-child and Pseudo-class Selectors ===
+                h5(class="mt-3" data-id="section-nth") Nth-child Selectors
+                table(class="table table-bordered" id="selector-table" style="max-width:400px" data-id="selector-table")
+                    tbody(data-id="table-body")
+                        tr(data-id="table-row-1")
+                            td(data-id="cell-1-1") Row 1, Cell 1
+                            td(data-id="cell-1-2") Row 1, Cell 2
+                        tr(data-id="table-row-2")
+                            td(data-id="cell-2-1") Row 2, Cell 1
+                            td(data-id="cell-2-2") Row 2, Cell 2
+                        tr(data-id="table-row-3")
+                            td(data-id="cell-3-1") Row 3, Cell 1
+                            td(data-id="cell-3-2") Row 3, Cell 2
+                        tr(data-id="table-row-4")
+                            td(data-id="cell-4-1") Row 4, Cell 1
+                            td(data-id="cell-4-2") Row 4, Cell 2
+
+                //- === Visibility / Hidden Elements ===
+                h5(class="mt-3" data-id="section-visibility") Visibility Tests
+                div(id="visibility-section" data-id="visibility-section")
+                    button(id="visible-btn" class="btn btn-success mb-2" data-id="visible-btn") I am visible
+                    button(id="hidden-display" class="btn btn-danger mb-2" style="display:none" data-id="hidden-display") Hidden via display:none
+                    button(id="hidden-visibility" class="btn btn-danger mb-2" style="visibility:hidden" data-id="hidden-visibility") Hidden via visibility:hidden
+                    div(style="width:0;height:0;overflow:hidden" data-id="hidden-overflow-wrapper")
+                        button(id="hidden-overflow" class="btn btn-danger" data-id="hidden-overflow") Hidden via zero-size parent
+                    button(id="hidden-opacity" class="btn btn-danger mb-2" style="opacity:0" data-id="hidden-opacity") Hidden via opacity:0
+                    div(id="offscreen-wrapper" style="position:absolute;left:-9999px" data-id="hidden-offscreen-wrapper")
+                        button(id="hidden-offscreen" class="btn btn-danger" data-id="hidden-offscreen") Hidden via offscreen position
+
+                //- === Nested Shadow DOM ===
+                h5(class="mt-3" data-id="section-shadow") Nested Shadow DOM
+                p Locate elements inside multiple levels of Shadow DOM.
+                css-outer-component(data-id="shadow-host-outer")
+
+        script.
+            // Level 1: Outer Shadow DOM component
+            class CssOuterComponent extends HTMLElement {
+                constructor() {
+                    super();
+                    const shadow = this.attachShadow({mode: 'open'});
+
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .outer-container {
+                            border: 2px solid #007bff;
+                            padding: 12px;
+                            border-radius: 6px;
+                            margin-top: 8px;
+                        }
+                        .outer-label {
+                            font-weight: bold;
+                            color: #007bff;
+                            margin-bottom: 8px;
+                        }
+                        .outer-btn {
+                            padding: 4px 12px;
+                            margin-right: 8px;
+                            cursor: pointer;
+                            background: #007bff;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                        }
+                    `;
+
+                    const container = document.createElement('div');
+                    container.setAttribute('class', 'outer-container');
+                    container.setAttribute('data-id', 'shadow-l1-container');
+
+                    const label = document.createElement('div');
+                    label.setAttribute('class', 'outer-label');
+                    label.setAttribute('data-id', 'shadow-l1-label');
+                    label.textContent = 'Shadow DOM Level 1';
+
+                    const btn = document.createElement('button');
+                    btn.setAttribute('class', 'outer-btn');
+                    btn.setAttribute('id', 'shadow-btn-l1');
+                    btn.setAttribute('data-level', '1');
+                    btn.setAttribute('data-id', 'shadow-l1-btn');
+                    btn.textContent = 'Level 1 Button';
+
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'text');
+                    input.setAttribute('id', 'shadow-input-l1');
+                    input.setAttribute('placeholder', 'Level 1 Input');
+                    input.setAttribute('class', 'shadow-input');
+                    input.setAttribute('data-id', 'shadow-l1-input');
+                    input.style.marginLeft = '8px';
+                    input.style.padding = '4px';
+
+                    // Nest the inner component
+                    const inner = document.createElement('css-inner-component');
+                    inner.setAttribute('data-id', 'shadow-host-inner');
+
+                    container.appendChild(label);
+                    container.appendChild(btn);
+                    container.appendChild(input);
+                    container.appendChild(document.createElement('br'));
+                    container.appendChild(document.createElement('br'));
+                    container.appendChild(inner);
+
+                    shadow.appendChild(style);
+                    shadow.appendChild(container);
+                }
+            }
+
+            // Level 2: Inner Shadow DOM component
+            class CssInnerComponent extends HTMLElement {
+                constructor() {
+                    super();
+                    const shadow = this.attachShadow({mode: 'open'});
+
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .inner-container {
+                            border: 2px solid #28a745;
+                            padding: 12px;
+                            border-radius: 6px;
+                        }
+                        .inner-label {
+                            font-weight: bold;
+                            color: #28a745;
+                            margin-bottom: 8px;
+                        }
+                        .inner-btn {
+                            padding: 4px 12px;
+                            margin-right: 8px;
+                            cursor: pointer;
+                            background: #28a745;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                        }
+                    `;
+
+                    const container = document.createElement('div');
+                    container.setAttribute('class', 'inner-container');
+                    container.setAttribute('data-id', 'shadow-l2-container');
+
+                    const label = document.createElement('div');
+                    label.setAttribute('class', 'inner-label');
+                    label.setAttribute('data-id', 'shadow-l2-label');
+                    label.textContent = 'Shadow DOM Level 2';
+
+                    const btn = document.createElement('button');
+                    btn.setAttribute('class', 'inner-btn');
+                    btn.setAttribute('id', 'shadow-btn-l2');
+                    btn.setAttribute('data-level', '2');
+                    btn.setAttribute('data-id', 'shadow-l2-btn');
+                    btn.textContent = 'Level 2 Button';
+
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'text');
+                    input.setAttribute('id', 'shadow-input-l2');
+                    input.setAttribute('placeholder', 'Level 2 Input');
+                    input.setAttribute('class', 'shadow-input');
+                    input.setAttribute('data-id', 'shadow-l2-input');
+                    input.style.marginLeft = '8px';
+                    input.style.padding = '4px';
+
+                    // Nest the deepest component
+                    const deep = document.createElement('css-deep-component');
+                    deep.setAttribute('data-id', 'shadow-host-deep');
+
+                    container.appendChild(label);
+                    container.appendChild(btn);
+                    container.appendChild(input);
+                    container.appendChild(document.createElement('br'));
+                    container.appendChild(document.createElement('br'));
+                    container.appendChild(deep);
+
+                    shadow.appendChild(style);
+                    shadow.appendChild(container);
+                }
+            }
+
+            // Level 3: Deepest Shadow DOM component
+            class CssDeepComponent extends HTMLElement {
+                constructor() {
+                    super();
+                    const shadow = this.attachShadow({mode: 'open'});
+
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .deep-container {
+                            border: 2px solid #dc3545;
+                            padding: 12px;
+                            border-radius: 6px;
+                        }
+                        .deep-label {
+                            font-weight: bold;
+                            color: #dc3545;
+                            margin-bottom: 8px;
+                        }
+                        .deep-btn {
+                            padding: 4px 12px;
+                            cursor: pointer;
+                            background: #dc3545;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                        }
+                    `;
+
+                    const container = document.createElement('div');
+                    container.setAttribute('class', 'deep-container');
+                    container.setAttribute('data-id', 'shadow-l3-container');
+
+                    const label = document.createElement('div');
+                    label.setAttribute('class', 'deep-label');
+                    label.setAttribute('data-id', 'shadow-l3-label');
+                    label.textContent = 'Shadow DOM Level 3 (Deepest)';
+
+                    const btn = document.createElement('button');
+                    btn.setAttribute('class', 'deep-btn');
+                    btn.setAttribute('id', 'shadow-btn-l3');
+                    btn.setAttribute('data-level', '3');
+                    btn.setAttribute('data-id', 'shadow-l3-btn');
+                    btn.textContent = 'Level 3 Button';
+
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'text');
+                    input.setAttribute('id', 'shadow-input-l3');
+                    input.setAttribute('placeholder', 'Level 3 Input');
+                    input.setAttribute('class', 'shadow-input');
+                    input.setAttribute('data-id', 'shadow-l3-input');
+                    input.style.marginLeft = '8px';
+                    input.style.padding = '4px';
+
+                    const status = document.createElement('span');
+                    status.setAttribute('id', 'deep-status');
+                    status.setAttribute('data-testid', 'deep-status');
+                    status.setAttribute('data-id', 'shadow-l3-status');
+                    status.textContent = ' Ready';
+                    status.style.marginLeft = '8px';
+                    status.style.color = '#dc3545';
+
+                    container.appendChild(label);
+                    container.appendChild(btn);
+                    container.appendChild(input);
+                    container.appendChild(status);
+
+                    shadow.appendChild(style);
+                    shadow.appendChild(container);
+                }
+            }
+
+            customElements.define('css-outer-component', CssOuterComponent);
+            customElements.define('css-inner-component', CssInnerComponent);
+            customElements.define('css-deep-component', CssDeepComponent);
+
+        include footer.html
