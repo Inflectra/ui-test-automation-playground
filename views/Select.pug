@@ -1,0 +1,173 @@
+doctype html
+html(lang="en")
+    include head.pug
+    body
+        include navbar.pug
+
+        section
+            div(class="container")
+                h3=title
+                p Selecting options in dropdown controls is a fundamental task in UI test automation. A robust tool must handle single-select, multi-select, selection by text, by value, and by regex patterns. It should also properly trigger change events and handle non-breaking spaces in option text.
+                h4 Scenario
+                ul
+                    li Select specific options from single-select dropdowns using option text and option value.
+                    li Add and remove selections in multi-select controls.
+                    li Verify current selection using the status labels.
+                    li Handle options containing non-breaking spaces.
+                    li Use regex-based selection for pattern matching.
+                h4 Playground
+
+                //- Single Select - Basic
+                div(class="form-group")
+                    label(for="selectLanguage") Programming Language (single-select)
+                    select(
+                        id="selectLanguage"
+                        class="form-control"
+                        onchange="updateSingleStatus('selectLanguage', 'statusLanguage')"
+                    )
+                        option(value="") -- Please select --
+                        option(value="js") JavaScript
+                        option(value="py") Python
+                        option(value="java") Java
+                        option(value="cs") C#
+                        option(value="rb") Ruby
+                        option(value="go") Go
+                        option(value="rs") Rust
+                    div(id="statusLanguage" class="text-muted mt-1") Selected: none
+
+                //- Single Select - With NBSP in options
+                div(class="form-group")
+                    label(for="selectCity") City (contains non-breaking spaces)
+                    select(
+                        id="selectCity"
+                        class="form-control"
+                        onchange="updateSingleStatus('selectCity', 'statusCity')"
+                    )
+                        option(value="") -- Please select --
+                        option(value="nyc") New#{'\u00A0'}York
+                        option(value="la") Los#{'\u00A0'}Angeles
+                        option(value="sf") San#{'\u00A0'}Francisco
+                        option(value="lv") Las#{'\u00A0'}Vegas
+                        option(value="slc") Salt#{'\u00A0'}Lake#{'\u00A0'}City
+                    div(id="statusCity" class="text-muted mt-1") Selected: none
+
+                //- Single Select - Select by Value (options with same-looking text)
+                div(class="form-group")
+                    label(for="selectProduct") Product Version (select by value)
+                    select(
+                        id="selectProduct"
+                        class="form-control"
+                        onchange="updateSingleStatus('selectProduct', 'statusProduct')"
+                    )
+                        option(value="") -- Please select --
+                        option(value="v1.0") Release 1.0
+                        option(value="v2.0") Release 2.0
+                        option(value="v2.1") Release 2.1
+                        option(value="v3.0-beta") Release 3.0 Beta
+                        option(value="v3.0") Release 3.0
+                    div(id="statusProduct" class="text-muted mt-1") Selected: none
+
+                //- Multi Select - Basic
+                div(class="form-group")
+                    label(for="selectColors") Colors (multi-select, hold Ctrl/Cmd to select multiple)
+                    select(
+                        id="selectColors"
+                        class="form-control"
+                        multiple
+                        size="6"
+                        onchange="updateMultiStatus('selectColors', 'statusColors')"
+                    )
+                        option(value="red") Red
+                        option(value="green") Green
+                        option(value="blue") Blue
+                        option(value="yellow") Yellow
+                        option(value="purple") Purple
+                        option(value="orange") Orange
+                    div(id="statusColors" class="text-muted mt-1") Selected: none
+
+                //- Multi Select - Pre-selected options
+                div(class="form-group")
+                    label(for="selectFruits") Fruits (multi-select, some pre-selected)
+                    select(
+                        id="selectFruits"
+                        class="form-control"
+                        multiple
+                        size="7"
+                        onchange="updateMultiStatus('selectFruits', 'statusFruits')"
+                    )
+                        option(value="apple" selected) Apple
+                        option(value="banana") Banana
+                        option(value="cherry" selected) Cherry
+                        option(value="date") Date
+                        option(value="elderberry") Elderberry
+                        option(value="fig") Fig
+                        option(value="grape" selected) Grape
+                    div(id="statusFruits" class="text-muted mt-1") Selected: Apple, Cherry, Grape
+
+                //- Overall status
+                br
+                div(
+                    id="opstatus"
+                    class="alert alert-info"
+                ) Perform selections and verify results using status labels above each control.
+
+        script.
+            function updateSingleStatus(selectId, statusId) {
+                var sel = document.getElementById(selectId);
+                var statusEl = document.getElementById(statusId);
+                var selectedOption = sel.options[sel.selectedIndex];
+                if (selectedOption && selectedOption.value) {
+                    statusEl.innerText = 'Selected: ' + selectedOption.text + ' (value: ' + selectedOption.value + ')';
+                    statusEl.className = 'text-success mt-1';
+                } else {
+                    statusEl.innerText = 'Selected: none';
+                    statusEl.className = 'text-muted mt-1';
+                }
+                updateOverallStatus();
+            }
+
+            function updateMultiStatus(selectId, statusId) {
+                var sel = document.getElementById(selectId);
+                var statusEl = document.getElementById(statusId);
+                var selected = [];
+                for (var i = 0; i < sel.options.length; i++) {
+                    if (sel.options[i].selected) {
+                        selected.push(sel.options[i].text);
+                    }
+                }
+                if (selected.length > 0) {
+                    statusEl.innerText = 'Selected: ' + selected.join(', ');
+                    statusEl.className = 'text-success mt-1';
+                } else {
+                    statusEl.innerText = 'Selected: none';
+                    statusEl.className = 'text-muted mt-1';
+                }
+                updateOverallStatus();
+            }
+
+            function updateOverallStatus() {
+                var selects = document.querySelectorAll('select');
+                var summary = [];
+                selects.forEach(function(sel) {
+                    var selected = [];
+                    for (var i = 0; i < sel.options.length; i++) {
+                        if (sel.options[i].selected && sel.options[i].value) {
+                            selected.push(sel.options[i].text);
+                        }
+                    }
+                    if (selected.length > 0) {
+                        summary.push(sel.id + ': ' + selected.join(', '));
+                    }
+                });
+                var statusEl = document.getElementById('opstatus');
+                if (summary.length > 0) {
+                    statusEl.innerText = summary.join(' | ');
+                } else {
+                    statusEl.innerText = 'Perform selections and verify results using status labels above each control.';
+                }
+            }
+
+            // Initialize multi-select status on load
+            updateMultiStatus('selectFruits', 'statusFruits');
+
+        include footer.html

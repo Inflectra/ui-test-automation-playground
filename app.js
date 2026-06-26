@@ -218,6 +218,12 @@ app.get('/cssselectors', function (req, res) {
   })
 })
 
+app.get('/select', function (req, res) {
+  res.render('Select', {
+    title: 'Select'
+  })
+})
+
 app.get('/dynamictable', function (req, res) {
 
   function genmetric(m)
